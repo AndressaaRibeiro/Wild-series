@@ -1,0 +1,9 @@
+// the ~ allows you to reference things in node_modules
+@import '~bootstrap/scss/bootstrap';
+
+$primary: #a8d1f5;
+$secondary: #cae47b;
+
+body {
+    background-color: $primary;
+}
