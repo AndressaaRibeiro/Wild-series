@@ -39,7 +39,27 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             'title' => 'Modern Family',
             'synopsis' => 'I dont know what to say lol',
             'reference' => 'category_Comedie',
+        ],
+
+        [
+            'title' => 'American Horror History',
+            'synopsis' => 'Awensome, thats a shame that is gone',
+            'reference' => 'category_Horror',
+        ],
+
+        [
+            'title' => 'Scream',
+            'synopsis' => 'With Jenna Ortega',
+            'reference' => 'category_Horror',
+        ],
+
+        [
+            'title' => 'The Hauting of Bly Manor',
+            'synopsis' => 'Ya ya',
+            'reference' => 'category_Horror',
         ]
+
+
 
     ];
 
