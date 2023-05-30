@@ -1,88 +1,38 @@
 <?php
 
 namespace App\DataFixtures;
-
-
+use Faker\Factory;
 use App\Entity\Program;
+use App\DataFixtures\CategoryFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
-{
-    public const PROGRAMS =[
-        [
-            'title' => 'The Handmaid Tales',
-            'synopsis' => 'Welcome to Gilead',
-            'reference' => 'category_Drama',
-        ],
+{  
+    public function load(ObjectManager $manager): void
+    {   $faker = Factory::create();
 
-        [
-            'title' => 'Jumanji',
-            'synopsis' => 'What is the next les amis?',
-            'reference' => 'category_Aventure',
-        ],
-
-        [
-            'title' => 'Fantastic Beasts',
-            'synopsis' => 'La baguette perdu',
-            'reference' => 'category_Fantastique',
-        ],
-
-        [
-            'title' => 'White Chicks',
-            'synopsis' => 'Are you up to?',
-            'reference' => 'category_Comedie',
-        ],
-
-        [
-            'title' => 'Modern Family',
-            'synopsis' => 'I dont know what to say lol',
-            'reference' => 'category_Comedie',
-        ],
-
-        [
-            'title' => 'American Horror History',
-            'synopsis' => 'Awensome, thats a shame that is gone',
-            'reference' => 'category_Horror',
-        ],
-
-        [
-            'title' => 'Scream',
-            'synopsis' => 'With Jenna Ortega',
-            'reference' => 'category_Horror',
-        ],
-
-        [
-            'title' => 'The Hauting of Bly Manor',
-            'synopsis' => 'Ya ya',
-            'reference' => 'category_Horror',
-        ]
-
-
-
-    ];
-
-    public function load(ObjectManager $manager)
-    {
-        foreach (self::PROGRAMS as $key => $programValue) {
-            $program = new Program();
-            $program->setTitle($programValue['title']);
-            $program->setSynopsis($programValue['synopsis']);
-            $program->setCategory($this->getReference($programValue['reference']));
-            $manager->persist($program);
-        }
+        for ($i = 0; $i <=50; $i++){
+        $program = new Program();
+        $program->settitle($faker->title());
+        $program->setSynopsis($faker->paragraphs(1 ,true));
+        $program->setCountry($faker->country());
+        $program->setYear($faker->year());
+        $program->setPoster('https://picsum.photos/id/237/200/300');
+        $radomCategoryKey = array_rand(CategoryFixtures::CATEGORIES);
+        $categoryName = CategoryFixtures::CATEGORIES[$radomCategoryKey];
+        $program->setCategory($this->getReference('category_' .$categoryName ));
+        $this->addReference('program_' .$i, $program);
+        $manager->persist($program);
+    }
        
         $manager->flush();
-    }
 
-    public function getDependencies()
-    {
-        // Tu retournes ici toutes les classes de fixtures dont ProgramFixtures dépend
+    }
+    public function getDependencies(){
         return [
-          CategoryFixtures::class,
+            CategoryFixtures::class,
         ];
     }
-
-
 }
